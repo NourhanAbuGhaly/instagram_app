@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram_app/dementaion.dart';
+import 'package:instagram_app/utils/dementaion.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout(
