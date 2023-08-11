@@ -8,8 +8,8 @@ import 'package:instagram_app/responsive/responsive_layout_screen.dart';
 import 'package:instagram_app/responsive/web_screen_layout.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
 
   runApp(const MyApp());
 }
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'instagram  Clone',
       theme: ThemeData.dark()
           .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
