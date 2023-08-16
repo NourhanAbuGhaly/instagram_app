@@ -54,9 +54,34 @@ String photoUrl=await StorageMethods().uploadImageToStorage("profilePics", file,
    // });
    res="success";
       }
-    } catch (err) {
+    } on FirebaseAuthException catch(err){
+      if (err.code=="invalid-email"){
+        res="The email is badly formatted";
+      }else if(err.code=="weak-password") {
+        res= "Password should be at least 6 characters ";
+
+      }
+    }
+    catch (err) {
       res = err.toString();
     }
     return res;
   }
+  Future<String> loginUser({
+    required String email, required String password
+})async{
+    String res= "Some error occurred";
+    try{
+if (email.isNotEmpty|| password.isNotEmpty){
+   await _auth.signInWithEmailAndPassword(email: email, password: password);
+   res= "success";
+}else{
+  res= "please enter all the fields";
+
+}
+    }catch (err){
+
+    }
+return res;
+}
 }

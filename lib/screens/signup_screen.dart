@@ -21,6 +21,7 @@ class _SignupScreensState extends State<SignupScreens> {
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   Uint8List? _image;
+  bool _islooding = false;
 
   @override
   void dispose() {
@@ -39,6 +40,25 @@ class _SignupScreensState extends State<SignupScreens> {
     });
   }
 
+  void signUpUser()async{
+    setState(() {
+      _islooding=true;
+    });
+    String res = await AuthMethods().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioController.text,
+        file:_image!
+    );
+    print(res);
+    setState(() {
+      _islooding=false;
+    });
+  if (res!="success"){
+showSnakbar(res , context);
+  }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,18 +142,9 @@ class _SignupScreensState extends State<SignupScreens> {
                   height: 24,
                 ),
                 InkWell(
-                  onTap: () async {
-                    String res = await AuthMethods().signUpUser(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      username: _usernameController.text,
-                      bio: _bioController.text,
-                        file:_image!
-                    );
-                    print(res);
-                  },
-                  child: Container(
-                    child: Text("Log in "),
+                  onTap:signUpUser,
+                  child:Container(
+                    child:_islooding? const Center(child: CircularProgressIndicator(color: primaryColor,),):Text("SignUp "),
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 12),
