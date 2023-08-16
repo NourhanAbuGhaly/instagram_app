@@ -86,7 +86,7 @@ class _LoginScreensState extends State<LoginScreens> {
               InkWell(
                 onTap: loginUser,
                 child: Container(
-                  child: Text("Log in "),
+                  child:_islooding?Center(child: CircularProgressIndicator(color:primaryColor ,),) :Text("Log in "),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(vertical: 12),
