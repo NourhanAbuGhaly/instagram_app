@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_app/resources/auth_methods.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/text_field_input.dart';
 
 class LoginScreens extends StatefulWidget {
@@ -13,6 +15,7 @@ class LoginScreens extends StatefulWidget {
 class _LoginScreensState extends State<LoginScreens> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _islooding = false;
 
   @override
   void dispose() {
@@ -20,6 +23,26 @@ class _LoginScreensState extends State<LoginScreens> {
     _passwordController.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _islooding = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == "success") {
+//
+      showSnakbar(res, context);
+
+    } else {
+      //
+
+      showSnakbar(res, context);
+    }
+    setState(() {
+      _islooding = false;
+    });
   }
 
   @override
@@ -61,6 +84,7 @@ class _LoginScreensState extends State<LoginScreens> {
                 height: 24,
               ),
               InkWell(
+                onTap: loginUser,
                 child: Container(
                   child: Text("Log in "),
                   width: double.infinity,
@@ -92,7 +116,7 @@ class _LoginScreensState extends State<LoginScreens> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){},
+                    onTap: () {},
                     child: Container(
                       child: Text(
                         " Sign up ",
