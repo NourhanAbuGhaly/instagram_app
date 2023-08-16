@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_app/resources/auth_methods.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/text_field_input.dart';
 
 class SignupScreens extends StatefulWidget {
@@ -15,6 +20,7 @@ class _SignupScreensState extends State<SignupScreens> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void dispose() {
@@ -24,6 +30,13 @@ class _SignupScreensState extends State<SignupScreens> {
     _bioController.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -57,17 +70,23 @@ class _SignupScreensState extends State<SignupScreens> {
                 ),
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 64,
-                      backgroundImage: NetworkImage(
-                          "https://images.unsplash.com/photo-1628563694622-5a76957fd09c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5zdGFncmFtJTIwcHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"),
-                    ),
+                    _image != null
+                        ? CircleAvatar(
+                            radius: 64,
+                            backgroundImage: MemoryImage(_image!),
+                          )
+                        : CircleAvatar(
+                            radius: 64,
+                            backgroundImage: NetworkImage(
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZCGFDrC8YeednlJC3mhxPfg_s4Pg8u7-kf6dy88&s"),
+                          ),
                     Positioned(
-                      bottom: -20, left: 60,
+                        bottom: -20,
+                        left: 80,
                         child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.add_a_photo),
-                    ))
+                          onPressed: selectImage,
+                          icon: Icon(Icons.add_a_photo),
+                        ))
                   ],
                 ),
                 SizedBox(
@@ -103,6 +122,16 @@ class _SignupScreensState extends State<SignupScreens> {
                   height: 24,
                 ),
                 InkWell(
+                  onTap: () async {
+                    String res = await AuthMethods().signUpUser(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      username: _usernameController.text,
+                      bio: _bioController.text,
+                      //    file:
+                    );
+                    print(res);
+                  },
                   child: Container(
                     child: Text("Log in "),
                     width: double.infinity,
