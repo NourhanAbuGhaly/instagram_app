@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_app/resources/auth_methods.dart';
+import 'package:instagram_app/screens/login_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/text_field_input.dart';
@@ -55,13 +56,15 @@ class _SignupScreensState extends State<SignupScreens> {
       _islooding = false;
     });
     if (res != "success") {
-      showSnakbar(res, context);
+      showSnakbar(res , context);
+    }else {
+
     }
   }
 
-  void navigaToSignUp() {
+  void navigaToLogin() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SignupScreens()));
+        .push(MaterialPageRoute(builder: (context) => LoginScreens()));
   }
 
   @override
@@ -185,10 +188,10 @@ class _SignupScreensState extends State<SignupScreens> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: navigaToSignUp,
+                      onTap: navigaToLogin,
                       child: Container(
                         child: Text(
-                          " Sign up ",
+                          " Login ",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),

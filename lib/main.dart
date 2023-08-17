@@ -41,14 +41,15 @@ class MyApp extends StatelessWidget {
                 webScreenLayout: WebScreenLayout(),
                 mobileScreenLayout: MobileScreenLayout(),
               );
-            }else if (snapshot.hasError){
-              return Center(child: Text("${snapshot.error}"),);
+            }
+            else if (snapshot.hasError){
+              return Center(child: Text("${snapshot.error}", style: const TextStyle(color: Colors.white),),);
             }
           }
           if(snapshot.connectionState==ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(color: primaryColor,),);
+            return const Center(child: CircularProgressIndicator(color: primaryColor,),);
           }
-          return LoginScreens();
+          return const LoginScreens();
         },
       ),
     );
