@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_app/resources/auth_methods.dart';
+import 'package:instagram_app/screens/home_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/text_field_input.dart';
@@ -33,8 +34,9 @@ class _LoginScreensState extends State<LoginScreens> {
         email: _emailController.text, password: _passwordController.text);
     if (res == "success") {
 //
+//       Navigator.of(context).pushReplacement(
+//           MaterialPageRoute(builder: (context) => HomeScreen()));
       showSnakbar(res, context);
-
     } else {
       //
 
@@ -44,9 +46,15 @@ class _LoginScreensState extends State<LoginScreens> {
       _islooding = false;
     });
   }
+  void navigaToLogin() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LoginScreens()));
+  }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -86,7 +94,13 @@ class _LoginScreensState extends State<LoginScreens> {
               InkWell(
                 onTap: loginUser,
                 child: Container(
-                  child:_islooding?Center(child: CircularProgressIndicator(color:primaryColor ,),) :Text("Log in "),
+                  child: _islooding
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : Text("Log in "),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(vertical: 12),
@@ -116,10 +130,10 @@ class _LoginScreensState extends State<LoginScreens> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigaToLogin,
                     child: Container(
                       child: Text(
-                        " Sign up ",
+                        " Log in",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

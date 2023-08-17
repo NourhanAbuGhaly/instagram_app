@@ -40,25 +40,30 @@ class _SignupScreensState extends State<SignupScreens> {
     });
   }
 
-  void signUpUser()async{
+  void signUpUser() async {
     setState(() {
-      _islooding=true;
+      _islooding = true;
     });
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
         username: _usernameController.text,
         bio: _bioController.text,
-        file:_image!
-    );
+        file: _image!);
     print(res);
     setState(() {
-      _islooding=false;
+      _islooding = false;
     });
-  if (res!="success"){
-showSnakbar(res , context);
+    if (res != "success") {
+      showSnakbar(res, context);
+    }
   }
+
+  void navigaToSignUp() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SignupScreens()));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +111,7 @@ showSnakbar(res , context);
                         child: IconButton(
                           onPressed: selectImage,
                           icon: Icon(Icons.add_a_photo),
-                        ))
+                        ),),
                   ],
                 ),
                 SizedBox(
@@ -142,9 +147,15 @@ showSnakbar(res , context);
                   height: 24,
                 ),
                 InkWell(
-                  onTap:signUpUser,
-                  child:Container(
-                    child:_islooding? const Center(child: CircularProgressIndicator(color: primaryColor,),):Text("SignUp "),
+                  onTap: signUpUser,
+                  child: Container(
+                    child: _islooding
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          )
+                        : Text("SignUp "),
                     width: double.infinity,
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 12),
@@ -174,7 +185,7 @@ showSnakbar(res , context);
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: navigaToSignUp,
                       child: Container(
                         child: Text(
                           " Sign up ",
