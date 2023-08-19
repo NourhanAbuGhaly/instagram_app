@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_app/resources/auth_methods.dart';
+import 'package:instagram_app/responsive/mobile_screen_layout.dart';
+import 'package:instagram_app/responsive/responsive_layout_screen.dart';
+import 'package:instagram_app/responsive/web_screen_layout.dart';
 import 'package:instagram_app/screens/login_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
@@ -56,9 +59,16 @@ class _SignupScreensState extends State<SignupScreens> {
       _islooding = false;
     });
     if (res != "success") {
-      showSnakbar(res , context);
-    }else {
-
+      showSnakbar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
     }
   }
 
@@ -109,12 +119,13 @@ class _SignupScreensState extends State<SignupScreens> {
                                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZCGFDrC8YeednlJC3mhxPfg_s4Pg8u7-kf6dy88&s"),
                           ),
                     Positioned(
-                        bottom: -20,
-                        left: 80,
-                        child: IconButton(
-                          onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo),
-                        ),),
+                      bottom: -20,
+                      left: 80,
+                      child: IconButton(
+                        onPressed: selectImage,
+                        icon: Icon(Icons.add_a_photo),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(
