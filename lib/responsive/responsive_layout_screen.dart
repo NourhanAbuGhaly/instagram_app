@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_app/provider/user_provider.dart';
 import 'package:instagram_app/utils/dementaion.dart';
+import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {
   const ResponsiveLayout(
@@ -15,6 +17,16 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
+  @override
+  void initState() {
+    addData();
+    // TODO: implement initState
+    super.initState();
+  }
+  Future<void> addData()async{
+    UserProvider _userProvider= Provider.of(context,listen: false);
+    await _userProvider.refreshUser();
+  }
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
