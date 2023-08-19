@@ -40,12 +40,10 @@ class _LoginScreensState extends State<LoginScreens> {
 //
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>
-          //     ResponsiveLayout(
-          //   webScreenLayout: WebScreenLayout(),
-          //   mobileScreenLayout: MobileScreenLayout(),
-          // ),
-       const   HomeScreen()
+          builder: (context) => ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
         ),
       );
       showSnakbar(res, context);
@@ -58,6 +56,7 @@ class _LoginScreensState extends State<LoginScreens> {
       _islooding = false;
     });
   }
+
   void navigaToSignup() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => SignupScreens()));
@@ -65,8 +64,6 @@ class _LoginScreensState extends State<LoginScreens> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: SafeArea(
         child: Container(

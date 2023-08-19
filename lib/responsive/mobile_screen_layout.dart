@@ -12,9 +12,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: primaryColor,
-        child: Text("This is a mobile", style: TextStyle(color: Colors.white),),
+      body: Center(
+        child: Container(
+        //  color: primaryColor,
+          child: Text(
+            "This is a mobile",
+          ),
+        ),
       ),
     );
   }
