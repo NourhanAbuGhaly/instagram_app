@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_app/firebase_options.dart';
+import 'package:instagram_app/provider/user_provider.dart';
 import 'package:instagram_app/responsive/mobile_screen_layout.dart';
 import 'package:instagram_app/responsive/responsive_layout_screen.dart';
 import 'package:instagram_app/responsive/web_screen_layout.dart';
 import 'package:instagram_app/screens/login_screen.dart';
 import 'package:instagram_app/screens/signup_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,34 +26,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'instagram  Clone',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-      // home:const ResponsiveLayout(
-      //     webScreenLayout: WebScreenLayout(),
-      //     mobileScreenLayout: MobileScreenLayout()),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              print("object*******************");
-              return const ResponsiveLayout(
-                webScreenLayout: WebScreenLayout(),
-                mobileScreenLayout: MobileScreenLayout(),
-              );
+    return MultiProvider(
+      providers: [
+       // Provider (create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_)=> UserProvider(),)
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'instagram  Clone',
+        theme: ThemeData.dark()
+            .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+        // home:const ResponsiveLayout(
+        //     webScreenLayout: WebScreenLayout(),
+        //     mobileScreenLayout: MobileScreenLayout()),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                print("object*******************");
+                return const ResponsiveLayout(
+                  webScreenLayout: WebScreenLayout(),
+                  mobileScreenLayout: MobileScreenLayout(),
+                );
+              }
+              else if (snapshot.hasError){
+                return Center(child: Text("${snapshot.error}", style: const TextStyle(color: Colors.white),),);
+              }
             }
-            else if (snapshot.hasError){
-              return Center(child: Text("${snapshot.error}", style: const TextStyle(color: Colors.white),),);
+            if(snapshot.connectionState==ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator(color: primaryColor,),);
             }
-          }
-          if(snapshot.connectionState==ConnectionState.waiting){
-            return const Center(child: CircularProgressIndicator(color: primaryColor,),);
-          }
-          return const LoginScreens();
-        },
+            return const LoginScreens();
+          },
+        ),
       ),
     );
   }
