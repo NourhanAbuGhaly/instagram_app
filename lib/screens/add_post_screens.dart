@@ -22,7 +22,7 @@ class _AddPostScreensState extends State<AddPostScreens> {
 
   final TextEditingController _descrptionController = TextEditingController();
 
-
+bool  _isloading =false ;
   void postImage(
   String uid,
   String username,
