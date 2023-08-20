@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_app/provider/user_provider.dart';
+import 'package:instagram_app/resources/firestore_method.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
 import 'dart:typed_data';
@@ -20,6 +21,24 @@ class _AddPostScreensState extends State<AddPostScreens> {
   Uint8List? _file;
 
   final TextEditingController _descrptionController = TextEditingController();
+
+
+  void postImage(
+  String uid,
+  String username,
+  String profImage,
+      )async{
+    try {
+String res= await FirestoreMethod().uploade(_descrptionController.text, _file!, uid, username, profImage);
+if(res =="success"){
+  showSnakbar("Posted!", context);
+}
+    }catch(e){
+      showSnakbar(e.toString(), context);
+
+    }
+
+  }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -65,6 +84,12 @@ class _AddPostScreensState extends State<AddPostScreens> {
           );
         });
   }
+  @override
+  void dispose() {
+    _descrptionController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +111,7 @@ class _AddPostScreensState extends State<AddPostScreens> {
               centerTitle: false,
               actions: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: ()=>postImage(user.uid, user.username,user. photoUrl),
                     child: Text(
                       "Post",
                       style: TextStyle(
