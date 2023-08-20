@@ -15,9 +15,9 @@ class StorageMethods {
       String childName, Uint8List file, bool isPost) async {
     Reference ref =
         await _storage.ref().child(childName).child(_auth.currentUser!.uid);
-    if (isPost){
-      String id = const  Uuid().v1();
-      ref.child(id);
+    if (isPost) {
+      String id = const Uuid().v1();
+      ref = ref.child(id);
       print("{$id}  is the id ");
     }
     UploadTask uploadTask = ref.putData(file);
