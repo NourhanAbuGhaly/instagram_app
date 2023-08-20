@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
+import 'dart:typed_data';
 
 class AddPostScreens extends StatefulWidget {
   const AddPostScreens({super.key});
@@ -9,21 +12,50 @@ class AddPostScreens extends StatefulWidget {
 }
 
 class _AddPostScreensState extends State<AddPostScreens> {
-  _selectImage(BuildContext context )async{
-    return showDialog(context: context, builder: (context){
-      return  SimpleDialog(title: Text("Create a Post"),children: [SimpleDialogOption(padding: EdgeInsets.all(20),)],);
-      
-    });
+  Uint8List? _file;
 
+  _selectImage(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("Create a Post"),
+            children: [
+              SimpleDialogOption(
+                padding: EdgeInsets.all(20),
+                child: Text("Take a photo"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  Uint8List file = await pickImage(ImageSource.camera);
+                  setState(() {
+                    _file = file;
+                  });
+                },
+              ),  SimpleDialogOption(
+                padding: EdgeInsets.all(20),
+                child: Text("Choose from Gallery"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  Uint8List file = await pickImage(ImageSource.gallery);
+                  setState(() {
+                    _file = file;
+                  });
+                },
+              )
+            ],
+          );
+        });
   }
+
   @override
   Widget build(BuildContext context) {
-    // return Center(
-    //     child: IconButton(
-    //   icon: Icon(Icons.upload),
-    //   onPressed: () {},
-    // ));
-    return Scaffold(
+    return  _file == null ?
+     Center(
+        child: IconButton(
+      icon: Icon(Icons.upload),
+      onPressed: ()=> _selectImage(context),
+    )):
+     Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         leading: IconButton(
@@ -78,7 +110,8 @@ class _AddPostScreensState extends State<AddPostScreens> {
                     ),
                   ),
                 ),
-              ), Divider()
+              ),
+              Divider()
             ],
           )
         ],
