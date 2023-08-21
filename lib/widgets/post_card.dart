@@ -108,9 +108,56 @@ class PostCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "1,231 likes",
-                  style: Theme.of(context).textTheme.bodyText2,
+                DefaultTextStyle(
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(fontWeight: FontWeight.w800),
+                  child: Text(
+                    "1,231 likes",
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(top: 8),
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(color: primaryColor),
+                      children: [
+                        TextSpan(
+                            text: "username",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text:
+                                "  hey this is some description to be a replacement",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      "view all 200 comment",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: secondaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    "22/12/2021",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: secondaryColor,
+                    ),
+                  ),
                 )
               ],
             ),
