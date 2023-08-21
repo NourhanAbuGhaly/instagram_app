@@ -92,14 +92,28 @@ class PostCard extends StatelessWidget {
                 ),
               ),
               Expanded(
-                  child: Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                  icon: Icon(Icons.bookmark_border),
-                  onPressed: () {},
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                    icon: Icon(Icons.bookmark_border),
+                    onPressed: () {},
+                  ),
                 ),
-              ))
+              ),
             ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "1,231 likes",
+                  style: Theme.of(context).textTheme.bodyText2,
+                )
+              ],
+            ),
           )
         ],
       ),
