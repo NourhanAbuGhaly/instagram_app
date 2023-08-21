@@ -19,15 +19,17 @@ class LikeAnimation extends StatefulWidget {
   State<LikeAnimation> createState() => _LikeAnimationState();
 }
 
-class _LikeAnimationState extends State<LikeAnimation>with SingleTickerProviderStateMixin {
+class _LikeAnimationState extends State<LikeAnimation>
+    with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> scale;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this,
-        duration: Duration(microseconds: widget.duration.inMilliseconds ~/ 2),
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(microseconds: widget.duration.inMilliseconds ~/ 2),
     );
     scale = Tween<double>(begin: 1, end: 1.2).animate(controller);
   }
@@ -61,6 +63,9 @@ class _LikeAnimationState extends State<LikeAnimation>with SingleTickerProviderS
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ScaleTransition(
+      scale: scale,
+      child: widget.child,
+    );
   }
 }
