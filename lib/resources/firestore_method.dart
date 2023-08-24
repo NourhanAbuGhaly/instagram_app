@@ -35,13 +35,41 @@ class FirestoreMethod {
   Future<void> likePost(String postId, String uid, List likes) async {
     try {
       if (likes.contains(uid)) {
-      await  _firestore.collection("posts").doc(postId).update({
+        await _firestore.collection("posts").doc(postId).update({
           'likes': FieldValue.arrayRemove([uid])
         });
       } else {
-        await  _firestore.collection("posts").doc(postId).update({
+        await _firestore.collection("posts").doc(postId).update({
           'likes': FieldValue.arrayUnion([uid])
         });
+      }
+    } catch (err) {
+      print(err.toString());
+    }
+  }
+
+  Future<void> postComment(String postId, String text, String uid,
+      String name, String profilePic) async {
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        _firestore
+            .collection("posts")
+            .doc(postId)
+            .collection("comments")
+            .doc(commentId)
+            .set({
+          'profilePic': profilePic,
+          'name': name,
+          'uid': uid,
+          'text': text,
+          'commentId': commentId,
+          'datePublished': DateTime.now(),
+        });
+        print("Text is not null and done to fire base ");
+
+      }else{
+        print("Text is empty");
       }
     } catch (err) {
       print(err.toString());
