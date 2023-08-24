@@ -17,8 +17,7 @@ class _CommentCardState extends State<CommentCard> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+
         children: [
           CircleAvatar(
             backgroundImage: NetworkImage(user.photoUrl),
