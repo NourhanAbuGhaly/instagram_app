@@ -16,7 +16,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
-  int postlength=0;
+  int postlength = 0;
+  int followers = 0;
+  int following = 0;
+  bool isFollowing = false;
 
   @override
   void initState() {
@@ -30,12 +33,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .collection("users")
           .doc(widget.uid)
           .get();
+
       ///get Post Length
 //var postSnap= await FirebaseFirestore.instance.collection("posts").where('uid', isEqualTo: widget.uid).get();
-var postSnap= await FirebaseFirestore.instance.collection("posts").where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+      var postSnap = await FirebaseFirestore.instance
+          .collection("posts")
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get();
 
-postlength =postSnap.docs.length;
+      postlength = postSnap.docs.length;
       userData = userSnap.data()!;
+      followers = userSnap.data()!["followers"].length;
+      following = userSnap.data()!["following"].length;
+isFollowing =userSnap.data()!["followers"].contains(FirebaseAuth.instance.currentUser!.uid);
       setState(() {});
     } catch (err) {
       print(err.toString());
@@ -73,8 +83,8 @@ postlength =postSnap.docs.length;
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               buildStateColumn(postlength, "posts"),
-                              buildStateColumn(150, "followers"),
-                              buildStateColumn(20, "following"),
+                              buildStateColumn(followers, "followers"),
+                              buildStateColumn(following, "following"),
                             ],
                           ),
                           Row(
