@@ -60,6 +60,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ],
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(top: 15),
+                  child: Text(
+                    "username",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),    Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(top: 1),
+                  child: Text(
+                    "Some description",
+                  ),
                 )
               ],
             ),
