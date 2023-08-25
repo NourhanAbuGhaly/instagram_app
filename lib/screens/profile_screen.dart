@@ -1,21 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/follow_button.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var userData = {};
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    try {
+      var snap = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.uid)
+          .get();
+      userData = snap.data()!;
+    } catch (err) {
+      print(err.toString());
+      showSnakbar(err.toString(), context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
-        title: Text("username"),
+        title: Text(userData['username']),
         centerTitle: false,
       ),
       body: ListView(
@@ -62,14 +87,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(top: 15),
                   child: Text(
                     "username",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),    Container(
-                  alignment: Alignment.center,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(top: 1),
                   child: Text(
                     "Some description",
@@ -78,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
+          const Divider(),
         ],
       ),
     );
