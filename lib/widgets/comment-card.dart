@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_app/provider/user_provider.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:instagram_app/models/user.dart' as models;
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({super.key});
-
+  const CommentCard({super.key,required this.snap});
+final snap ;
   @override
   State<CommentCard> createState() => _CommentCardState();
 }
@@ -20,7 +21,7 @@ class _CommentCardState extends State<CommentCard> {
 
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(user.photoUrl),
+            backgroundImage: NetworkImage(widget.snap["profilePic"]),
             radius: 10,
           ),
           Expanded(
@@ -32,18 +33,18 @@ class _CommentCardState extends State<CommentCard> {
                   RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                      text: "username",
+                      text: "${widget.snap["name"]}   ",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextSpan(
-                      text: "some description to insert",
+                      text: "    ${widget.snap["text"]}",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ])),
                   Padding(
                     padding: EdgeInsets.only(top: 4),
                     child: Text(
-                      "23/12/2",
+                      "${DateFormat.yMMMd().format(widget.snap['datePublished'].toDate())}",
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
