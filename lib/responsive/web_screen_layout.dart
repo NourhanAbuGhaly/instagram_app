@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/global_variable.dart';
 
 class WebScreenLayout extends StatefulWidget {
   const WebScreenLayout({super.key});
@@ -43,6 +44,9 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
 
   void navigationTapeed(int page) {
     pageController.jumpToPage(page);
+    setState(() {
+      _page=page;
+    });
   }
 
   void onPageChanged(int page) {
@@ -75,50 +79,43 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => navigationTapeed(0),
             icon: Icon(
               Icons.home,
+              color:_page==0? primaryColor:secondaryColor,
+            ),
+          ),
+          IconButton(
+            onPressed: ()  => navigationTapeed(1),
+            icon: Icon(
+              Icons.search,
               color:_page==1? primaryColor:secondaryColor,
             ),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              color: primaryColor,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
+            onPressed: () => navigationTapeed(2),
             icon: Icon(
               Icons.add_a_photo,
-              color: primaryColor,
+              color:_page==2? primaryColor:secondaryColor,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => navigationTapeed(3),
             icon: Icon(
               Icons.favorite,
-              color: primaryColor,
+              color:_page==3? primaryColor:secondaryColor,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => navigationTapeed(4),
             icon: Icon(
               Icons.person,
-              color: primaryColor,
+              color:_page==4? primaryColor:secondaryColor,
             ),
           ),
         ],
       ),
-      body: Center(
-        child: Container(
-          //  color: primaryColor,
-          child: Text(
-            "{$username}",
-          ),
-        ),
-      ),
+      body: PageView(children: homeScreensItems,controller: pageController,onPageChanged: onPageChanged,)
     );
   }
 }
