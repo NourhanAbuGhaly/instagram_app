@@ -32,7 +32,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(),
       body: Center(
         child: Container(
         //  color: primaryColor,
