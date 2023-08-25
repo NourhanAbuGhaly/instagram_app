@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_app/utils/colors.dart';
 import 'package:instagram_app/utils/utils.dart';
@@ -15,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var userData = {};
+  int postlength=0;
 
   @override
   void initState() {
@@ -29,7 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .doc(widget.uid)
           .get();
       ///get Post Length
+//var postSnap= await FirebaseFirestore.instance.collection("posts").where('uid', isEqualTo: widget.uid).get();
+var postSnap= await FirebaseFirestore.instance.collection("posts").where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
 
+postlength =postSnap.docs.length;
       userData = userSnap.data()!;
       setState(() {});
     } catch (err) {
@@ -67,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buildStateColumn(20, "posts"),
+                              buildStateColumn(postlength, "posts"),
                               buildStateColumn(150, "followers"),
                               buildStateColumn(20, "following"),
                             ],
