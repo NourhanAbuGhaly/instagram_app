@@ -24,11 +24,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   getData() async {
     try {
-      var snap = await FirebaseFirestore.instance
+      var userSnap = await FirebaseFirestore.instance
           .collection("users")
           .doc(widget.uid)
           .get();
-      userData = snap.data()!;
+      ///get Post Length
+
+      userData = userSnap.data()!;
+      setState(() {});
     } catch (err) {
       print(err.toString());
       showSnakbar(err.toString(), context);
@@ -53,8 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.grey,
-                      backgroundImage: NetworkImage(
-                          "https://images.unsplash.com/photo-1583934555920-8a26b7d75598?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=455&q=80"),
+                      backgroundImage: NetworkImage(userData["photoUrl"]),
                       radius: 40,
                     ),
                     Expanded(
@@ -90,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(top: 15),
                   child: Text(
-                    "username",
+                    userData['username'].toString(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -98,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(top: 1),
                   child: Text(
-                    "Some description",
+                    userData['bio'],
                   ),
                 )
               ],
