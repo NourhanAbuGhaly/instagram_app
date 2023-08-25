@@ -34,19 +34,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
                         children: [
-                          buildStateColumn(20, "posts"),
-                          buildStateColumn(150, "followers"),
-                          buildStateColumn(20, "following"),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buildStateColumn(20, "posts"),
+                              buildStateColumn(150, "followers"),
+                              buildStateColumn(20, "following"),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              FollowButton(
+                                backGroungColor: mobileBackgroundColor,
+                                borderColor: Colors.grey,
+                                text: "Edit Profile",
+                                textColor: primaryColor,
+                                function: () {},
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                    ), Row(children: [
-
-                      FolloButton()
-                    ],)
+                    ),
                   ],
                 )
               ],
