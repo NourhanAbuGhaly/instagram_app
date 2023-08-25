@@ -4,6 +4,7 @@ import 'package:instagram_app/provider/user_provider.dart';
 import 'package:instagram_app/resources/firestore_method.dart';
 import 'package:instagram_app/screens/comments_screen.dart';
 import 'package:instagram_app/utils/colors.dart';
+import 'package:instagram_app/utils/global_variable.dart';
 import 'package:instagram_app/utils/utils.dart';
 import 'package:instagram_app/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -42,14 +43,19 @@ class _PostCardState extends State<PostCard> {
     } catch (err) {
       showSnakbar(err.toString(), context);
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     final models.User user = Provider.of<UserProvider>(context).getUser;
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      color: mobileBackgroundColor,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+        ),
+      ),
+
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
